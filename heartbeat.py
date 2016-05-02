@@ -1,5 +1,4 @@
 import os
-import re
 import sys
 import syslog
 import signal
@@ -9,6 +8,8 @@ import subprocess
 import ConfigParser
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
+
+CUR_PATH = os.path.realpath(__file__).rsplit('/', 1)[0]
 
 # Check that our dependencies are installed
 try:
@@ -25,7 +26,7 @@ except:
 # Load the configuration and logging facility
 try:
     config = ConfigParser.ConfigParser()
-    config.readfp(open('heartbeat.cfg'))
+    config.readfp(open(os.path.join(CUR_PATH, 'heartbeat.cfg')))
     syslog.openlog("Heartbeat", logoption=syslog.LOG_PID)
     debug = config.getboolean('debug', 'debug')
     if debug:
